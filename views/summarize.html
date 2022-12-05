@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>vidSummarizer - Summarize your audio & videos in simple text!</title>
+    <meta content="vidSummarizer helps to analyze sentiment & summarize audio & video files into simple text within few seconds." name="description">
+    <meta content="audio,video,summarizer,transcript" name="keywords">
+
+    <meta property="og:title" content="vidSummarizer - Summarize your audio & videos in simple text!">
+    <meta property="og:description" content="vidSummarizer helps to analyze sentiment & summarize audio & video files into simple text within few seconds.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://brackethacks.com/1.0/">
+    <meta property="og:image" content="https://brackethacks.com/1.0//img/brackethacks-1.0-banner.jpg" />
+
+    <!-- Favicons -->
+    <link href="/img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="apple-touch-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Signika&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!--===============================================================================================-->
+
+    <!-- Template Main CSS File -->
+    <link href="/css/style.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<style>
+    video,
+    audio {
+        box-shadow: 0 0 0 4px rgba(244, 117, 88, 0.5);
+        border-radius: 8px;
+        width: 100%;
+    }
+    
+    audio {
+        border-radius: 50px !important;
+    }
+</style>
+
+<body>
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="hero d-flex p-0" style="background-color: #f4f8fb;">
+
+        <div class="container">
+            <a href="/" class="logo d-flex" style="margin-top: 30px;">
+                <img src="/img/vidsummarizer_logo.png" height="50" alt="vidSummarizer">
+            </a>
+            <div class="row d-flex align-items-center" style="margin-top: 40px; padding-bottom: 30px;">
+                <div class="row col-lg-5 d-flex">
+                    <div class="row align-items-center" style="width: max-content;">
+                        <span style="width: max-content;" class="align-items-center">
+                            <i style="padding: 5px 7.5px; font-size: 22px; border-radius: 100%; background-color: rgba(40, 167, 70, 0.2);" class="bi bi-check text-success"></i>
+                        </span>
+                        <p class="text-success" style="font-size: 18px; width: max-content; padding: 0;">File uploaded</p>
+                    </div>
+                    <div class="row align-items-center" style="width: max-content;">
+                        <span style="width: max-content;" class="align-items-center">
+                            <i id="status-icon" style="padding: 5px 7.5px; font-size: 22px; border-radius: 100%; background-color: rgba(255, 193, 7, 0.2);" class="bi bi-upload text-warning"></i>
+                        </span>
+                        <p class="text-warning" id="status-tag" style="font-size: 18px; width: max-content; padding: 0;">Uploading!</p>
+                    </div>
+                </div>
+                <div class="row col-lg-7">
+                    <div class="text-end" id="summarize-other-div">
+                        <a href="/upload-file" style="border-radius: 8px !important;" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                            <span>Summarize Other</span>
+                            <i class="bi bi-chat-dots-fill"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- End Hero -->
+
+    <main id="main">
+
+        <!-- ======= About Section ======= -->
+        <section class="about">
+
+            <div class="container p-0" style="background-color: transparent;">
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-4 text-center p-4 m-4" id="loading-bar">
+                        <img src="/img/loading_puzzle.gif" class="img-fluid" height="100" width="100">
+                        <h4 id="loading-title" class="m-2">File is being upload!</h4>
+                        <span id="loading-desc" style="font-size: 18px;">It'll take a few moments to upload, just wait!</span>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center m-3" id="result">
+                    <div class="col-md-7 text-start p-3">
+                        <h1>Transcript <span id="sentiment-verdict" class="text-white bg-success p-2" style="font-weight: bold; font-size: 17px; border-radius: 50px;">POSITIVE</span></h1>
+                        <span class="mt-2" style="font-size: 18px;" id="transcript-text"></span>
+                    </div>
+
+                    <div class="col-md-5 text-start p-3">
+                        <div class="text-center">
+                            <% if(mimeType == "video"){ %>
+                                <video controls>
+                                    <source src="/uploads/<%=id%>.<%=type%>">
+                                </video>
+                                <% }else{ %>
+                                    <audio controls>
+                                        <source src="/uploads/<%=id%>.<%=type%>">
+                                    </audio>
+                                    <% } %>
+                        </div>
+                        <h1 class="mt-4">Summarization</h1>
+                        <span style="font-size: 18px;" id="summarize-text"></span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- End About Section -->
+
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer p-4 m-0" style="background-color: transparent;">
+        <div class="container text-center">
+            <h3 class="mt-3">@vidSummarizer</h3>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!--===============================================================================================-->
+    <script>
+        var mimeType = '<%=mimeType%>';
+        var id = '<%=id%>';
+        var type = '<%=type%>';
+        if (id != '') {
+            $('#loading-bar').show();
+            $('#result').hide();
+            $('#summarize-other-div').hide();
+
+            $.ajax({
+                url: '/upload_file',
+                type: 'POST',
+                data: 'id=' + id + '&type=' + type,
+                dataType: 'JSON'
+            }).done(function(response) {
+                if (response.status == 200) {
+                    $('#status-icon').removeClass('bi-upload').addClass('bi-arrow-clockwise');
+                    $('#status-tag').text("Proccessing!");
+
+                    $('#loading-title').text("We're summarizing your audio/video");
+                    $('#loading-desc').text("Summarizing time take roughly 15-30% of the file's duration. For example, a 10 minute file takes 90-180 seconds to complete. After completion you can copy the text.");
+
+                    $.ajax({
+                        url: '/summarize',
+                        type: 'POST',
+                        data: 'upload_url=' + response.upload_url,
+                        dataType: 'JSON'
+                    }).done(function(response) {
+                        if (response.status == 200) {
+                            $('#loading-bar').hide();
+                            $('#result').show();
+
+                            $('#status-icon').removeClass('bi-arrow-clockwise').addClass('bi-check');
+                            $('#status-tag').text("Viewing results!");
+
+                            $('#summarize-other-div').show();
+
+                            $('#transcript-text').text(response.transcript);
+                            $('#summarize-text').text(response.summary);
+
+                            if (response.sentiment == "POSITIVE") {
+                                $('#sentiment-verdict').text("POSITIVE");
+                            } else if (response.sentiment == "NEGATIVE") {
+                                $('#sentiment-verdict').removeClass('bg-success').addClass('bg-danger');
+                                $('#sentiment-verdict').text("NEGATIVE");
+                            } else {
+                                $('#sentiment-verdict').removeClass('bg-success').addClass('bg-warning');
+                                $('#sentiment-verdict').text("NEUTRAL");
+                            }
+                        }
+                    }).fail(function() {
+                        console.log("AJAX Issue!")
+                    })
+                }
+            }).fail(function() {
+                console.log("AJAX Issue!")
+            })
+        }
+    </script>
+    <!--===============================================================================================-->
+
+</body>
+
+</html>
