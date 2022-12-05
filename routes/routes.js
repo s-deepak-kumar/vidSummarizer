@@ -162,6 +162,7 @@ router.post("/summarize", async(req, res) => {
 
 // GET method for homepage
 router.get("/", (req, res) => {
+    res.setHeader('Content-Type', 'text/html');
     res.render(getAbsolutePath() + '/views/index.html', { user: "Hello" });
 });
 
