@@ -29,3 +29,6 @@ The advanced artificial intelligence has been used for summarize your audio & vi
 4. Run ``` npm install ``` command, it'll install all required modules
 5. Run ```npm start ``` command
 6. Open **http://localhost:3000** in your browser
+
+### Demo Website
+http://139.59.64.48:3000/
