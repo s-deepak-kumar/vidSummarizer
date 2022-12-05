@@ -15,6 +15,7 @@
     "author": "S Deepak Kumar",
     "license": "ISC",
     "dependencies": {
+        "aws-sdk": "^2.1267.0",
         "axios": "^1.2.0",
         "body-parser": "^1.20.1",
         "cohere-ai": "^4.5.0",
